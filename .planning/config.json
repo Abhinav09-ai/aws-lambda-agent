@@ -1,0 +1,9 @@
+{
+  "mode": "yolo",
+  "granularity": "coarse",
+  "parallel_plans": true,
+  "planning": {
+    "commit_docs": true,
+    "search_gitignored": false
+  }
+}
