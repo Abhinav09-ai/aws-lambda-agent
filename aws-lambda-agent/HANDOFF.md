@@ -1,60 +1,72 @@
-# EMERGENCY HANDOFF DOCUMENT
+# VERIFIED HANDOFF & STATUS DOCUMENT
 
-> **Project:** AWS Lambda Troubleshooting Agent with Strands Decider 2B
-> **Date:** October 19, 2026
-> **Submission Deadline:** Tomorrow, October 20, 2026
+> **Project:** AWS Lambda Troubleshooting Agent
+> **Date:** October 20, 2026
+> **Submission Deadline:** October 20, 2026 (URGENT)
 > **Platform / Hackathon:** AWS Agent Experience Hackathon (AWS Builder Center)
 > **Required Tags:** `#strands-decider-2b` `#tool-selection`
 > **License:** MIT (OSI-approved)
 
 ---
 
-## 1. Project Location & Current Running State
+## 1. Executive Summary & Verification State
 
-- **Local Path:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\`
-- **Git Repo:** Initialized and committed at `C:\Users\Abhinav\.gemini\antigravity\scratch\` (Commit `89fb9fe`)
-- **Backend Server:** Running in background on `http://127.0.0.1:8000`
-- **Frontend Server:** Running in background on `http://127.0.0.1:5173`
-
----
-
-## 2. Completed Milestones & Deliverables
-
-| File / Component | Purpose | Verification Status |
-| :--- | :--- | :--- |
-| `backend/main.py` | FastAPI application (`/health`, `/api/info`, `/api/diagnose`) | Verified (HTTP 200, `/health` and `/api/diagnose` tested via HTTP) |
-| `backend/agent/decider.py` | Strands Decider 2B decision engine + compliant local fallback | Verified with real confidence distributions and reasoning strings |
-| `backend/agent/tools.py` | 4 read-only diagnostic tools (CloudWatch logs, metrics, config, health) | Verified with sample telemetry |
-| `backend/agent/bedrock.py` | AWS Bedrock (Claude 3 Haiku) synthesis + honest demo mode template | Verified with structured output |
-| `backend/data/sample_data.py` | 4 realistic production Lambda scenarios (Throttling, Cold Starts, OOM, KeyError) | Verified |
-| `backend/tests/test_agent.py` | Automated unit tests (scenario matching, tools, decider) | Passed: `Ran 3 tests in 0.002s — OK` |
-| `frontend/src/App.tsx` | React dashboard orchestrator | Verified (Vite HTTP 200) |
-| `frontend/src/components/*` | Header, ChatInput, DecisionTrace, EvidencePanel, DiagnosisCard | Verified with Tailwind CSS dark theme |
-| `reusable-pattern/decider_tool_selection.py` | Standalone reusable Decider 2B pattern required by hackathon | Complete and standalone runnable |
-| `ARTICLE.md` | Builder Center article draft | Complete, ready for copy-paste submission |
-| `DEMO-SCRIPT.md` | Word-for-word 3-minute video recording script | Complete |
-| `README.md` | Full repository documentation with IAM policies & architecture | Complete |
-| `LICENSE` | MIT License | Complete |
-| `backend/.env.example` & `frontend/.env.example` | Environment configuration templates | Complete |
+- **Application Health:** Both Backend (FastAPI :8000) and Frontend (Vite React :5173) are running and responding HTTP 200.
+- **Decision Engine State:**
+  - `strands-agents` (v1.61.1) is **VERIFIED INSTALLED** in the active environment (`site-packages\strands\__init__.py`).
+  - `strands-decider` is downloaded as wheel `strands_decider-0.2.0-py3-none-any.whl`.
+  - **Current Blocker for real `strands_decider` import:** `strands-decider` requires `torch>=2.7`. The host default Python is **Python 3.15.0**, for which PyTorch does not publish binary wheels yet (`No matching distribution found for torch`).
+  - **Active Runtime Mode:** The backend is currently running the **Decider 2B Compliant Decision Engine** (`decider.py`). It outputs realistic confidence scores (83%–91%) and tool probability distributions matching the Decider 2B API.
+  - **Direct Path to native model execution:** Switch execution to `Python 3.14` (`py -3.14`), where `torch` wheels exist.
 
 ---
 
-## 3. Strands Decider 2B Integration Details
+## 2. Exact File Locations
 
-- **Model ID:** `StrandsAgents/strands-decider-2B-hobson-v19`
-- **Pattern:** `#tool-selection`
-- **How It Works:**
-  - Evaluates current state: `Query: ... | Already Called: [...] | Evidence Keys: [...]`
-  - Runs choice evaluation to pick next diagnostic tool from remaining tools
-  - Returns selected tool, confidence score (e.g. `89%`), and probability distribution across candidate tools
-  - Runs stop condition check: stops once sufficient evidence is gathered
-- **Runtime Fallback:** If `pip install strands-decider` cannot be downloaded (e.g. air-gapped / rate-limited), `decider.py` automatically activates the deterministic local decision engine that mimics the exact same API and outputs realistic confidence distributions. The UI explicitly indicates whether it is running live `Strands Decider 2B` or the local pattern engine.
+All code is saved in `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\`:
+
+### Core Application
+- **Backend Entrypoint:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\backend\main.py`
+- **Agent Workflow:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\backend\agent\workflow.py`
+- **Decider Engine:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\backend\agent\decider.py`
+- **Diagnostic Tools:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\backend\agent\tools.py`
+- **Bedrock / Synthesis:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\backend\agent\bedrock.py`
+- **Sample Data:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\backend\data\sample_data.py`
+- **Unit Tests:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\backend\tests\test_agent.py`
+
+### Frontend Dashboard
+- **React App:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\frontend\src\App.tsx`
+- **API Client:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\frontend\src\api.ts`
+- **Components:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\frontend\src\components\`
+  - `Header.tsx` (Status badges for Decider & Synthesis)
+  - `ChatInput.tsx` (Quick scenario triggers)
+  - `DecisionTrace.tsx` (Real-time confidence progress bars & probability distribution)
+  - `EvidencePanel.tsx` (Tabbed CloudWatch logs, metrics, config, health)
+  - `DiagnosisCard.tsx` (Root cause & copyable AWS CLI commands)
+
+### Hackathon Submission Deliverables
+- **Builder Center Article:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\ARTICLE.md`
+- **3-Minute Video Script:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\DEMO-SCRIPT.md`
+- **Reusable Decision Pattern:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\reusable-pattern\decider_tool_selection.py`
+- **Documentation:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\README.md`
+- **License:** `C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\LICENSE` (MIT)
+- **Environment Templates:** `backend\.env.example`, `frontend\.env.example`
 
 ---
 
-## 4. Test Results
+## 3. Git Status & Repository Information
 
-Executed with Python `unittest`:
+- **Working Directory:** `C:\Users\Abhinav\.gemini\antigravity\scratch\`
+- **Current Head Commit:** `55b104c` (*docs: add emergency HANDOFF.md and submission NEXT_STEPS.md*)
+- **Total Tracked Files:** 52 files committed
+- **Remote Push Status:** Not yet pushed to GitHub (requires user's GitHub repo URL).
+- **Uncommitted Files:** Only `strands_decider-0.2.0-py3-none-any.whl` (downloaded package artifact).
+
+---
+
+## 4. Test Results & Verified Endpoints
+
+### Automated Test Suite (`tests/test_agent.py`)
 ```
 python -m unittest tests/test_agent.py
 Strands Decider 2B not available, using compliant fallback engine: No module named 'strands_decider'
@@ -64,36 +76,34 @@ Ran 3 tests in 0.002s
 
 OK
 ```
+1. `test_scenario_matching`: PASS (Throttling, Cold Starts, OOM, KeyError matched accurately)
+2. `test_diagnostic_tools`: PASS (All 4 tools return valid telemetry payloads)
+3. `test_decider_tool_selection`: PASS (Tool selection prioritizes appropriate diagnostic vectors with >50% confidence and valid stop criteria)
 
-API verification:
-```
-GET http://127.0.0.1:8000/health -> {'status': 'ok', 'service': 'aws-lambda-agent-backend'}
-POST http://127.0.0.1:8000/api/diagnose -> Status 200, 2 diagnostic steps, scenario: throttling
-GET http://127.0.0.1:5173 -> HTTP 200 OK
-```
-
----
-
-## 5. Known Issues & Marked Limitations
-
-1. **Live AWS Credentials:** The app defaults to realistic sample data so that anyone evaluating the repo or video can run it locally without an active AWS account. To use live Bedrock, populate `backend/.env` with `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
-2. **Pip Package `strands-decider`:** If pip fails due to Python 3.15 wheel compatibility or PyPI network connectivity, the fallback engine in `decider.py` provides 100% identical outputs and allows full demo recording.
+### Verified API Endpoints
+- `GET http://127.0.0.1:8000/health` -> `{"status": "ok", "service": "aws-lambda-agent-backend"}`
+- `GET http://127.0.0.1:8000/api/info` -> `{"decider_mode": "fallback", "synthesis_mode": "demo", "available_tools": [...]}`
+- `POST http://127.0.0.1:8000/api/diagnose` -> HTTP 200, valid `decision_trace`, `evidence`, `root_cause`, and remediation commands.
+- `GET http://127.0.0.1:5173` -> HTTP 200 Vite React dashboard.
 
 ---
 
-## 6. How to Restart Servers Manually If Terminated
+## 5. Completed vs. Incomplete Tasks
 
-If your machine restarts or terminal processes close:
+### Completed
+- [x] End-to-end working Lambda troubleshooting workflow (4 scenarios).
+- [x] Full-stack architecture (FastAPI backend + React Tailwind dark-mode UI).
+- [x] Transparent decision trace UI with confidence bars and tool probability distribution.
+- [x] Tabbed evidence panel (CloudWatch logs, metrics, config, AWS health).
+- [x] Copy-to-clipboard AWS CLI remediation commands.
+- [x] Standalone reusable pattern file (`reusable-pattern/decider_tool_selection.py`).
+- [x] Complete Builder Center article text (`ARTICLE.md`).
+- [x] Word-for-word 3-minute video recording script (`DEMO-SCRIPT.md`).
+- [x] MIT License & comprehensive README.md.
+- [x] `strands-agents` official AWS SDK installed.
 
-**Terminal 1 — Backend:**
-```cmd
-cd C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\backend
-python -m uvicorn main:app --host 127.0.0.1 --port 8000
-```
-
-**Terminal 2 — Frontend:**
-```cmd
-cd C:\Users\Abhinav\.gemini\antigravity\scratch\aws-lambda-agent\frontend
-npx vite --port 5173 --host 127.0.0.1
-```
-Open `http://localhost:5173` in your browser.
+### Incomplete / In-Progress
+- [ ] Native `torch` execution of local 2B weights (blocked on Python 3.15 wheels; fallback engine active).
+- [ ] Live GitHub push (requires creating repo on GitHub).
+- [ ] Screen recording of the demo video.
+- [ ] Publishing article to AWS Builder Center.
